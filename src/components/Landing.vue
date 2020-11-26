@@ -11,21 +11,13 @@
           </div>
         </form>
       </div>
-      <div class="col-md-8 mr-auto ml-auto hero-image-section">
-        <div class="row text-center justify-content-center">
-          <div class="col-lg-3 col-md-4 col-6 " v-for="human in humans" :key="human.name">
-            <div class="hero-image-style">
-              <div class="hero-image pr-1 pl-1">
-                <div class="hero-image__img-wrap">
-                  <div class="hero-image__img" :alt="userName"
-                    v-bind:style="{ backgroundImage: `url(${human.img})` }">
-                  </div>
-                </div>
-                <div class="hero-image__style">
-                  <h6 class="hero-image__name">{{ human.name }}</h6>
-                  <small class="hero-image__role m-0">{{ human.role }}</small>
-                </div>
-              </div>
+      <div class="col-md-7 mr-auto ml-auto hero-image-section">
+        <div class="justify-content-center gallery">
+          <div class="item-container pl-2 pr-2 pb-4" v-for="human in humans" :key="human.name">
+            <img class="hero-image__img-wrap" :alt="userName" :src="human.img">
+            <div class="hero-image__style">
+              <h6 class="hero-image__name mb-0">{{ human.name }}</h6>
+              <small class="hero-image__role m-0">{{ human.role }}</small>
             </div>
           </div>
         </div>
@@ -40,48 +32,48 @@
     props: [
       'userName', 'userRole', 'userImg'
     ],
+    methods: {
+      masonry() {
+
+      }
+    },
     data() {
       return {
         humans: [{
             name: 'JR Kanu',
             role: 'CEO & Founder',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/JRKanu.CEO&Founder.jpg'
+            img: 'https://source.unsplash.com/random/?african,fun'
           },
           {
             name: 'Tunde Akiode',
             role: 'Chief Retail Officer',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/TundeAkiode.ChiefRetailOfficer.jpg'
+            img: 'https://source.unsplash.com/random/?african,food'
           },
           {
             name: 'Boyewa Adepoju',
             role: 'Product Marketer',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/BoyewaAbiodun-Adepoju.HeadofMarketung&Communications.jpg'
+            img: 'https://source.unsplash.com/random/?african,dance'
           },
           {
             name: 'Adedamola Adeniran',
             role: 'Engineering Manager',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/adedamola-adeniran.jpg'
+            img: 'https://source.unsplash.com/random/?african,party'
           },
           {
             name: 'Abuoma Nwadike',
             role: 'Product Manager',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/AbuomaNwadike.ProductManager.jpg'
+            img: 'https://source.unsplash.com/random/?african,smile'
           },
           {
             name: 'Toye Iwakin',
             role: 'Software Engineer',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/ToyeIwakin.Softwareengineer.jpg'
+            img: 'https://source.unsplash.com/random/?african,travel'
           },
           {
             name: 'Jide Omotola',
             role: 'Software Engineer',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/OlajideOmotola.softwaredeveloper.jpg'
-          },
-          {
-            name: 'Eunice Bakare',
-            role: 'Software Engineer',
-            img: 'https://storage.googleapis.com/moneyme-mybank/web/team/BakareEunice.androiddeveloper.jpg'
-          },
+            img: 'https://source.unsplash.com/random/?african,farm'
+          }
         ]
       }
     },
@@ -90,6 +82,36 @@
 
 <!--limits CSS to this component only -->
 <style lang="scss">
+
+  .gallery {
+    margin-top: -3rem;
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-columns: auto auto auto;
+    width: 90%;
+    position: relative;
+    height: 100%;
+    padding: 45px 0;
+  }
+
+  .item-container,
+  .gallery {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .item-container:first-child,
+  .gallery {
+    grid-column-start: span 1;
+    grid-row-start: span 1;
+  }
+
+  .item-container:nth-child(2n+2),
+  .gallery {
+    grid-row-start: span 2;
+  }
+
   .hero {
     background-color: #F0F0F0;
     height: 18rem;
@@ -100,110 +122,57 @@
     outline: none;
     box-shadow: none !important;
     border: 0;
-    height: 3rem;
+    height: 3.5rem;
   }
 
   .input-group-text {
     border: 0 !important;
-    height: 3rem;
+    height: 3.5rem;
   }
 
-  .hero-image {
-    display: block;
-
-    &:hover,
-    &:focus {
-      .hero-image__img-wrap {
-        filter: none;
-      }
-    }
+  .hero-image__img-wrap:hover {
+    transform: scale(1.025);
   }
-
-
 
   .hero-image__img-wrap {
-    margin: 0 auto;
     transition: .5s ease;
-    width: 35.53vw;
-    height: 35.53vw;
-    border-radius: 50%;
-
-    @media (min-width: 768px) {
-      width: 20vw;
-      height: 20vw;
-    }
-
-    @media (min-width: 992px) {
-      width: 17vw;
-      height: 17vw;
-    }
-
-    @media (min-width: 1200px) {
-      width: 15vw;
-      height: 15vw;
-    }
-  }
-
-  .hero-image__img {
-    display: block;
     width: 100%;
     height: 100%;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: grey;
+    background-color: #E8E8E8;
     border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 0 16px #333;
+    transition: all 1.5s ease;
+    transition: grid-row-start 300ms linear;
+    transition: transform 300ms ease;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+        display: block;
+        position: absolute;
+        object-fit: contain;
+        width: 100%;
+        opacity: 0.3;
+        background-repeat: no-repeat;
+        height: 100%;
+        background: linear-gradient(145deg, #9700c8, #ff9f00 100%);
+    }
   }
 
   .hero-image__role {
     color: rgb(229, 226, 226);
-
-    @media (min-width:320px) {
-      font-size: 1rem;
-
-    }
-
-    @media (min-width: 768px) {
-      font-size: 1.125rem;
-    }
-
-    @media (min-width: 1200px) {
-      font-size: 1.25rem;
-    }
+    font-size: 1rem;
   }
 
   .hero-image__style {
-    padding: 1rem 0.2rem;
-
-    @media (min-width: 992px) {
-      padding: 2rem 0.5rem;
-    }
+    margin-top: -3.5rem;
   }
 
   .hero-image__name {
     margin-bottom: 0.5rem;
     color: #ffffff;
-
-    @media (min-width:320px) {
-      font-size: 1rem;
-
-    }
-
-    @media (min-width: 768px) {
-      font-size: 1.125rem;
-    }
-
-    @media (min-width: 1200px) {
-      font-size: 1.25rem;
-    }
-  }
-
-  .hero-image-style {
-    margin-bottom: 2.5rem;
-
-    @media (min-width: 768px) {
-      margin-bottom: 5rem;
-    }
+    font-size: 1.1rem;
   }
 
   .hero-image-section {
