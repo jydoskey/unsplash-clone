@@ -13,7 +13,7 @@
       </div>
       <div class="col-md-7 mr-auto ml-auto hero-image-section">
         <div class="justify-content-center gallery">
-          <div class="item-container pl-2 pr-2 pb-4" v-for="human in humans" :key="human.name">
+          <div class="item-container pl-2 pr-2 pb-4" v-for="(human, index) in humans" :key="index">
             <img class="hero-image__img-wrap" :alt="userName" :src="human.img">
             <div class="hero-image__style">
               <h6 class="hero-image__name mb-0">{{ human.name }}</h6>
@@ -32,11 +32,6 @@
     props: [
       'userName', 'userRole', 'userImg'
     ],
-    methods: {
-      masonry() {
-
-      }
-    },
     data() {
       return {
         humans: [{
@@ -82,7 +77,6 @@
 
 <!--limits CSS to this component only -->
 <style lang="scss">
-
   .gallery {
     margin-top: -3rem;
     display: grid;
@@ -135,7 +129,6 @@
   }
 
   .hero-image__img-wrap {
-    transition: .5s ease;
     width: 100%;
     height: 100%;
     background-color: #E8E8E8;
@@ -146,22 +139,10 @@
     transition: grid-row-start 300ms linear;
     transition: transform 300ms ease;
     cursor: pointer;
-
-    &::before {
-      content: '';
-        display: block;
-        position: absolute;
-        object-fit: contain;
-        width: 100%;
-        opacity: 0.3;
-        background-repeat: no-repeat;
-        height: 100%;
-        background: linear-gradient(145deg, #9700c8, #ff9f00 100%);
-    }
   }
 
   .hero-image__role {
-    color: rgb(229, 226, 226);
+    color: #ffffff;
     font-size: 1rem;
   }
 
