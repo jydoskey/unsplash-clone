@@ -14,7 +14,8 @@
       <div class="col-md-7 mr-auto ml-auto hero-image-section">
         <div class="justify-content-center gallery">
           <div class="item-container pl-2 pr-2 pb-4" v-for="(human, index) in humans" :key="index">
-            <img class="hero-image__img-wrap" :alt="userName" :src="human.img">
+            <img class="hero-image__img-wrap" @click="showModal = true, itemClicked(human)" :alt="userName"
+              :src="human.img">
             <div class="hero-image__style">
               <h6 class="hero-image__name mb-0">{{ human.name }}</h6>
               <small class="hero-image__role m-0">{{ human.role }}</small>
@@ -22,6 +23,30 @@
           </div>
         </div>
       </div>
+      <modal v-if="showModal" :human='human'>
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" @click="showModal=false">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="item-container pb-4">
+                    <img class="modal-img" @click="showModal = true" :alt="userName" :src="image">
+                    <div class="modal__style">
+                      <h6 class="modal__name mb-0">{{ name }}</h6>
+                      <small class="modal__role m-0">{{ role }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </modal>
     </div>
   </section>
 </template>
@@ -32,8 +57,16 @@
     props: [
       'userName', 'userRole', 'userImg'
     ],
+    methods: {
+      itemClicked: function (human) {
+        this.image = human.img;
+        this.name = human.name;
+        this.role = human.role;
+      }
+    },
     data() {
       return {
+        showModal: false,
         humans: [{
             name: 'JR Kanu',
             role: 'CEO & Founder',
@@ -77,6 +110,23 @@
 
 <!--limits CSS to this component only -->
 <style lang="scss">
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
   .gallery {
     margin-top: -3rem;
     display: grid;
@@ -139,6 +189,26 @@
     transition: grid-row-start 300ms linear;
     transition: transform 300ms ease;
     cursor: pointer;
+  }
+
+  .modal-img {
+    width: 100%;
+    height: 60vh;
+    background-color: #E8E8E8;
+    border-radius: 4px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .modal__name {
+    margin-bottom: 0.5rem;
+    color: blue($color: #3e5cbe);
+    font-size: 1.1rem;
+  }
+
+  .modal__role {
+    color: blue($color: #3e5cbe);
+    font-size: 1rem;
   }
 
   .hero-image__role {
