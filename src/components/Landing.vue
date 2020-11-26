@@ -30,15 +30,15 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button" class="close" @click="showModal=false">
+                    <div type="button" class="close text-white pr-0" @click="showModal=false">
                       <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                   </div>
-                  <div class="item-container pb-4">
+                  <div class="img-container pb-4">
                     <img class="modal-img" @click="showModal = true" :alt="userName" :src="image">
-                    <div class="modal__style">
-                      <h6 class="modal__name mb-0">{{ name }}</h6>
-                      <small class="modal__role m-0">{{ role }}</small>
+                    <div class="modal__style text-left pt-3">
+                      <h6 class="modal__name mb-0 text-left pl-4">{{ name }}</h6>
+                      <small class="modal__role m-0 pl-4">{{ role }}</small>
                     </div>
                   </div>
                 </div>
@@ -110,6 +110,10 @@
 
 <!--limits CSS to this component only -->
 <style lang="scss">
+  .close {
+    font-size: 28px;
+  }
+
   .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -228,5 +232,15 @@
 
   .hero-image-section {
     padding-top: 4.5rem;
+  }
+
+  .modal-content {
+    background-color: transparent !important;
+    border: 0 !important;
+  }
+
+  .img-container {
+    background-color: #F0F0F0;
+    border-radius: 4px;
   }
 </style>
