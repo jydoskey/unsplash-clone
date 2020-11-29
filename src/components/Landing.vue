@@ -7,7 +7,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text bg-white"><i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
-            <input type="text" class="form-control" placeholder="Search for photo" aria-describedby="search" required>
+            <input type="text" id="search" class="form-control" placeholder="Search for photo" aria-describedby="search"
+              required>
           </div>
         </form>
       </div>
@@ -15,10 +16,10 @@
         <div class="justify-content-center gallery">
           <div class="item-container pl-2 pr-2 pb-4" v-for="(human, index) in humans" :key="index">
             <img class="hero-image__img-wrap" @click="showModal = true, itemClicked(human)" :alt="userName"
-              :src="human.img">
+              :src="human.urls.regular">
             <div class="hero-image__style">
-              <h6 class="hero-image__name mb-0">{{ human.name }}</h6>
-              <small class="hero-image__role m-0">{{ human.role }}</small>
+              <h6 class="hero-image__name mb-0">{{ human.user.name }}</h6>
+              <small class="hero-image__role m-0">{{ human.user.location }}</small>
             </div>
           </div>
         </div>
@@ -38,7 +39,7 @@
                     <img class="modal-img" @click="showModal = true" :alt="userName" :src="image">
                     <div class="modal__style text-left pt-3">
                       <h6 class="modal__name mb-0 text-left pl-4">{{ name }}</h6>
-                      <small class="modal__role m-0 pl-4">{{ role }}</small>
+                      <small class="modal__role m-0 pl-4">{{ location }}</small>
                     </div>
                   </div>
                 </div>
@@ -59,50 +60,37 @@
     ],
     methods: {
       itemClicked: function (human) {
-        this.image = human.img;
-        this.name = human.name;
-        this.role = human.role;
+        this.image = human.urls.regular;
+        this.name = human.user.name;
+        this.location = human.user.location;
+      },
+      africanImages() {
+        this.axios.get(
+            'https://api.unsplash.com/search/photos/?query=african&per_page=7&page=1&order_by=latest&client_id=zKonVXL1sV6nHsMPTpvGzQtC0wsNDHsTVoHpzjulbzs'
+            )
+          .then((response) => {
+            this.humans = response.data.results
+            let people = []
+            for (let i = 0; i < this.humans.length; i++) {
+              people = this.humans[i]
+            }
+            this.humans.push(people);
+          })
+      },
+      photoSearch() {
+
       }
+    },
+    mounted() {
+      this.africanImages();
     },
     data() {
       return {
         showModal: false,
-        humans: [{
-            name: 'JR Kanu',
-            role: 'CEO & Founder',
-            img: 'https://source.unsplash.com/random/?african,fun'
-          },
-          {
-            name: 'Tunde Akiode',
-            role: 'Chief Retail Officer',
-            img: 'https://source.unsplash.com/random/?african,food'
-          },
-          {
-            name: 'Boyewa Adepoju',
-            role: 'Product Marketer',
-            img: 'https://source.unsplash.com/random/?african,dance'
-          },
-          {
-            name: 'Adedamola Adeniran',
-            role: 'Engineering Manager',
-            img: 'https://source.unsplash.com/random/?african,party'
-          },
-          {
-            name: 'Abuoma Nwadike',
-            role: 'Product Manager',
-            img: 'https://source.unsplash.com/random/?african,smile'
-          },
-          {
-            name: 'Toye Iwakin',
-            role: 'Software Engineer',
-            img: 'https://source.unsplash.com/random/?african,travel'
-          },
-          {
-            name: 'Jide Omotola',
-            role: 'Software Engineer',
-            img: 'https://source.unsplash.com/random/?african,farm'
-          }
-        ]
+        image: '',
+        name: '',
+        location: '',
+        humans: []
       }
     },
   }
