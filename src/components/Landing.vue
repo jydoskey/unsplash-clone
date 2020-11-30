@@ -7,24 +7,25 @@
             <div class="input-group-prepend">
               <span class="input-group-text bg-white"><i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
-            <input type="text" id="search" class="form-control" placeholder="Search for photo" aria-describedby="search"
-              required>
+            <input type="text" v-model="searchQuery" v-on:keyup="africanImages()" class="form-control"
+              placeholder="Search for photo" aria-describedby="search" required>
           </div>
         </form>
+        <h2 v-if="searchQuery != ''" class="mb-0 mt-4">Search results for: "{{searchQuery}}"</h2>
       </div>
-      <div class="col-md-7 mr-auto ml-auto hero-image-section">
+      <div class="col-md-8 mr-auto ml-auto hero-image-section">
         <div class="justify-content-center gallery">
           <div class="item-container pl-2 pr-2 pb-4" v-for="(human, index) in humans" :key="index">
             <img class="hero-image__img-wrap" @click="showModal = true, itemClicked(human)" :alt="userName"
               :src="human.urls.regular">
-            <div class="hero-image__style">
-              <h6 class="hero-image__name mb-0">{{ human.user.name }}</h6>
-              <small class="hero-image__role m-0">{{ human.user.location }}</small>
+            <div class="hero-image__style text-left">
+              <h6 class="hero-image__name mb-0 pl-2">{{ human.user.name }}</h6>
+              <small class="hero-image__role m-0 pl-2">{{ human.user.location }}</small>
             </div>
           </div>
         </div>
       </div>
-      <modal v-if="showModal" :human='human'>
+      <div v-if="showModal" :human='human'>
         <transition name="modal">
           <div class="modal-mask">
             <div class="modal-wrapper">
@@ -47,7 +48,7 @@
             </div>
           </div>
         </transition>
-      </modal>
+      </div>
     </div>
   </section>
 </template>
@@ -55,6 +56,17 @@
 <script>
   export default {
     name: 'Landing',
+    data() {
+      return {
+        showModal: false,
+        image: '',
+        name: '',
+        location: '',
+        humans: [],
+        searchQuery: '',
+        human: '',
+      }
+    },
     props: [
       'userName', 'userRole', 'userImg'
     ],
@@ -66,8 +78,9 @@
       },
       africanImages() {
         this.axios.get(
-            'https://api.unsplash.com/search/photos/?query=african&per_page=7&page=1&order_by=latest&client_id=zKonVXL1sV6nHsMPTpvGzQtC0wsNDHsTVoHpzjulbzs'
-            )
+            'https://api.unsplash.com/search/photos/?query=' + this.searchQuery +
+            '&per_page=7&page=1&order_by=latest&client_id=zKonVXL1sV6nHsMPTpvGzQtC0wsNDHsTVoHpzjulbzs'
+          )
           .then((response) => {
             this.humans = response.data.results
             let people = []
@@ -77,21 +90,11 @@
             this.humans.push(people);
           })
       },
-      photoSearch() {
-
-      }
     },
-    mounted() {
+    created() {
+      this.searchQuery = 'african'
       this.africanImages();
-    },
-    data() {
-      return {
-        showModal: false,
-        image: '',
-        name: '',
-        location: '',
-        humans: []
-      }
+      this.searchQuery = ''
     },
   }
 </script>
@@ -151,7 +154,7 @@
   .hero {
     background-color: #F0F0F0;
     height: 18rem;
-    padding: 7.5rem 0;
+    padding: 6.5rem 0;
   }
 
   input[type="text"] {
@@ -209,7 +212,7 @@
   }
 
   .hero-image__style {
-    margin-top: -3.5rem;
+    margin-top: -5rem;
   }
 
   .hero-image__name {
@@ -219,7 +222,7 @@
   }
 
   .hero-image-section {
-    padding-top: 4.5rem;
+    padding-top: 3rem;
   }
 
   .modal-content {
