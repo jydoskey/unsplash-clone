@@ -37,7 +37,7 @@
                     </div>
                   </div>
                   <div class="img-container pb-4">
-                    <img class="modal-img" @click="showModal = true" :alt="userName" :src="image">
+                    <img class="modal-img" :alt="userName" :src="image">
                     <div class="modal__style text-left pt-3">
                       <h6 class="modal__name mb-0 text-left pl-4">{{ name }}</h6>
                       <small class="modal__role m-0 pl-4">{{ location }}</small>
