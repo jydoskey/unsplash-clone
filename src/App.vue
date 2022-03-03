@@ -17,6 +17,7 @@
 
 <style lang="scss">
   @import "@/scss/themed-bootstrap.scss";
+  @import "@/scss/landing.scss";
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
