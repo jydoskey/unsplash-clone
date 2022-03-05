@@ -215,16 +215,21 @@ export default {
   },
   props: ["userName", "userRole", "userImg"],
   methods: {
+    defaultSearch() {
+      if (this.searchQuery == '') {
+            this.searchQuery = 'african'
+          }
+    },
     itemClicked: function (human) {
       this.image = human.urls.regular;
       this.name = human.user.name;
       this.location = human.user.location;
     },
     africanImages() {
-      this.axios
-        .get(
+      let search_query = this.searchQuery;
+      this.axios.get(
           "https://api.unsplash.com/search/photos/?query=" +
-            this.searchQuery +
+            search_query +
             "&per_page=7&page=1&order_by=latest&client_id=zKonVXL1sV6nHsMPTpvGzQtC0wsNDHsTVoHpzjulbzs"
         )
         .then((response) => {
@@ -238,13 +243,9 @@ export default {
     },
   },
   created() {
-    this.searchQuery = "african";
+    this.defaultSearch()
     this.africanImages();
-    this.searchQuery = "";
+    this.searchQuery = ''
   },
 };
 </script>
-
-<style lang="scss">
-
-</style>
